@@ -1,0 +1,24 @@
+import spacy
+
+def multiLanguage_NER(text, lang):
+	#Model name
+	lang_model = lang + "_core_web_sm"
+	#Load the model
+	nlp = spacy.load(lang_model)
+	#Parse the text
+	doc = nlp(text)
+	entities = {}
+	#Store values in dictionary
+	for ent in doc.ents:
+		#print(ent.text, ent.start_char, ent.end_char, ent.label_)
+		entities[ent] = {}
+		entities[ent]["text"] = ent.text
+		entities[ent]["type"] = ent.label_
+		entities[ent]["start_pos"] = ent.start_char
+		entities[ent]["end_pos"] = ent.end_char
+	return entities
+
+
+text = "Apple is looking at buying U.K. startup for $1 billion"
+entities = multiLanguage_NER(text, "en")
+print(entities)
